@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id = "@+id/news"
+        android:enabled="true"
+        android:icon="@drawable/news"
+        android:title="News"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id = "@+id/search_news"
+        android:enabled="true"
+        android:icon="@drawable/search_news"
+        android:title="Search news"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id = "@+id/favorites"
+        android:enabled="true"
+        android:icon="@drawable/favorites"
+        android:title="Favorites"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id = "@+id/social"
+        android:enabled="true"
+        android:icon="@drawable/social"
+        android:title="Social"
+        app:showAsAction="ifRoom" />
+</menu>

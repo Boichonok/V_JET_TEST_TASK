@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.RecyclerViewPagination.MainWIndow">
+
+    <LinearLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:id="@+id/fragmentLayout"
+                android:layout_width="match_parent"
+                android:layout_height="507dp">
+
+                <com.facebook.login.widget.LoginButton
+                    android:id="@+id/login_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="220dp" />
+
+            </FrameLayout>
+
+            <android.support.design.widget.BottomNavigationView
+                android:id="@+id/navigationButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:itemBackground="@color/colorPrimary"
+                app:itemIconTint="@drawable/nav_item_col_state"
+                app:itemTextColor="@drawable/nav_item_col_state"
+                app:menu="@menu/buttom_navigation">
+
+            </android.support.design.widget.BottomNavigationView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>
