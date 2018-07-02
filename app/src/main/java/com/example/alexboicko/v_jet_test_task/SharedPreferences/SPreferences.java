@@ -43,4 +43,8 @@ public class SPreferences {
         }
         return bundle;
     }
+    public final static boolean isFilePrefEmpty(Activity activity){
+        SharedPreferences preferences = activity.getSharedPreferences("MyPref",Context.MODE_PRIVATE);
+       return preferences.getAll().isEmpty();
+    }
 }

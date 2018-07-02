@@ -132,12 +132,28 @@ public class MainWIndow extends AppCompatActivity implements BottomNavigationVie
         int permissionInternetStatus = ContextCompat.checkSelfPermission(this,Manifest.permission.INTERNET);
 
         if(permissionInternetStatus != PackageManager.PERMISSION_GRANTED
-                ){
+               && permissionWifiStatus != PackageManager.PERMISSION_GRANTED
+                && permissionNetworkStatus != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.INTERNET,
                     Manifest.permission.ACCESS_NETWORK_STATE,
                     Manifest.permission.ACCESS_WIFI_STATE},1);
         }
-
+        if(isInternetConnect){
+            loginFacebook.setVisibility(View.VISIBLE);
+        } else {
+            if(!SPreferences.isFilePrefEmpty(this)) {
+                Toast.makeText(this, "You are working in OfflineMode!", Toast.LENGTH_LONG).show();
+                loginFacebook.setVisibility(View.GONE);
+                bottomNavigationView.setVisibility(View.VISIBLE);
+                socialFragment.setArguments(SPreferences.loadLastUser(this));
+                android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentLayout, socialFragment);
+                fragmentTransaction.commit();
+            } else {
+                Toast.makeText(this,"You need do a first login with FaceBook",Toast.LENGTH_LONG).show();
+            }
+        }
 
     }
 
@@ -201,18 +217,7 @@ public class MainWIndow extends AppCompatActivity implements BottomNavigationVie
                 }else {
                     isInternetConnect = checkInternetConnect();
                 }
-                if(isInternetConnect){
-                    loginFacebook.setVisibility(View.VISIBLE);
-                } else {
-                    Toast.makeText(this,"You are working in OfflineMode!",Toast.LENGTH_LONG);
-                    loginFacebook.setVisibility(View.GONE);
-                    bottomNavigationView.setVisibility(View.VISIBLE);
-                    socialFragment.setArguments(SPreferences.loadLastUser(this));
-                    android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.fragmentLayout,socialFragment);
-                    fragmentTransaction.commit();
-                }
+
             }
         }
     }

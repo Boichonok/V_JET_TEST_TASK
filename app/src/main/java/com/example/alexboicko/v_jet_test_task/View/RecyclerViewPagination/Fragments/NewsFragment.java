@@ -135,8 +135,8 @@ public class NewsFragment extends Fragment {
 
 
         linearLayout.setGravity(Gravity.CENTER);
-        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        dialog.addContentView(inflater.inflate(R.layout.chose_news_dialog,null,false),linearLayout.getLayoutParams());
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        dialog.setContentView(inflater.inflate(R.layout.chose_news_dialog,null,false),linearLayout.getLayoutParams());
         Button addFavorite = dialog.findViewById(R.id.addToFaivorite);
         addFavorite.setOnClickListener(new View.OnClickListener() {
             @Override
