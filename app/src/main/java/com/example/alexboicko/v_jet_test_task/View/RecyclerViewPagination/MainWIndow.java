@@ -77,7 +77,7 @@ public class MainWIndow extends AppCompatActivity implements BottomNavigationVie
 
     CompositeDisposable disposable;
 
-    private boolean isInternetConnect = false;
+    private boolean isInternetConnect;
 
 
 
@@ -90,6 +90,7 @@ public class MainWIndow extends AppCompatActivity implements BottomNavigationVie
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_window);
         ButterKnife.bind(this);
+        isInternetConnect = checkInternetConnect();
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
         bottomNavigationView.setVisibility(View.GONE);
 
@@ -142,6 +143,7 @@ public class MainWIndow extends AppCompatActivity implements BottomNavigationVie
             loginFacebook.setVisibility(View.VISIBLE);
         } else {
             if(!SPreferences.isFilePrefEmpty(this)) {
+                Log.d("MY_TAG", "isInternet connect: " + isInternetConnect);
                 Toast.makeText(this, "You are working in OfflineMode!", Toast.LENGTH_LONG).show();
                 loginFacebook.setVisibility(View.GONE);
                 bottomNavigationView.setVisibility(View.VISIBLE);

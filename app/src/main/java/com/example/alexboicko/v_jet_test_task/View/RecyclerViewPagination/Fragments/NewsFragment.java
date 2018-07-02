@@ -130,13 +130,9 @@ public class NewsFragment extends Fragment {
 
     private void showChoosenDialog(Item item, LayoutInflater inflater,final String userId){
         Dialog dialog = new Dialog(context);
-        LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
 
-
-        linearLayout.setGravity(Gravity.CENTER);
-        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        dialog.setContentView(inflater.inflate(R.layout.chose_news_dialog,null,false),linearLayout.getLayoutParams());
+        dialog.setContentView(R.layout.chose_news_dialog);
+        dialog.setTitle("Choose action");
         Button addFavorite = dialog.findViewById(R.id.addToFaivorite);
         addFavorite.setOnClickListener(new View.OnClickListener() {
             @Override

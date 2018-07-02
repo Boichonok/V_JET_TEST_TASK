@@ -165,7 +165,8 @@ public class FavoritesNewsFragment extends Fragment {
 
     private void showChoosenDialog(Item item, LayoutInflater inflater){
         Dialog dialog = new Dialog(context);
-        dialog.addContentView(inflater.inflate(R.layout.chose_news_dialog,null,false),new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        dialog.setContentView(R.layout.chose_news_dialog);
+        dialog.setTitle("Choose action");
         Button addFavorite = dialog.findViewById(R.id.addToFaivorite);
         addFavorite.setVisibility(View.GONE);
 
