@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -129,7 +130,13 @@ public class NewsFragment extends Fragment {
 
     private void showChoosenDialog(Item item, LayoutInflater inflater,final String userId){
         Dialog dialog = new Dialog(context);
-        dialog.addContentView(inflater.inflate(R.layout.chose_news_dialog,null,false),new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+
+        linearLayout.setGravity(Gravity.CENTER);
+        linearLayout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        dialog.addContentView(inflater.inflate(R.layout.chose_news_dialog,null,false),linearLayout.getLayoutParams());
         Button addFavorite = dialog.findViewById(R.id.addToFaivorite);
         addFavorite.setOnClickListener(new View.OnClickListener() {
             @Override

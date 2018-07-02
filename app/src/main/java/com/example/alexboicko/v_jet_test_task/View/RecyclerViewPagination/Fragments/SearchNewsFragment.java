@@ -153,6 +153,10 @@ public class SearchNewsFragment extends Fragment {
     void startSearchNews(){
         searchInput = searchTargetEditText.getText().toString();
         itemList.clear();
+        if(searchInput.length() == 0){
+            Toast.makeText(context,"Search target is Empty",Toast.LENGTH_LONG).show();
+            return;
+        }
         switch (sortType){
             case POPULARITY:{
                 disposable.add(viewModel.getSearchResultSortingByPopularity(searchInput)
@@ -197,6 +201,10 @@ public class SearchNewsFragment extends Fragment {
             }break;
             case BY_SOURCE:{
                 sourceNameInput = sourceInput.getText().toString();
+                if(searchInput.length() == 0) {
+                    Toast.makeText(context,"Source Name Input is Empty!",Toast.LENGTH_LONG).show();
+                    return;
+                }
                 disposable.add(viewModel.getSearchResultFilteredBySource(searchInput,sourceNameInput)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableSubscriber<List<Item>>() {
@@ -219,7 +227,10 @@ public class SearchNewsFragment extends Fragment {
             case BY_DATE_RANGE:{
                 fromDateInput = fromDate.getText().toString();
                 toDateInput = toDate.getText().toString();
-
+                if (fromDateInput.length() == 0 || toDateInput.length() == 0) {
+                    Toast.makeText(context,"From date input or to date input is Empty!",Toast.LENGTH_LONG).show();
+                    return;
+                }
                 disposable.add(viewModel.getSearchResultFilteredByDataRange(searchInput,fromDateInput,toDateInput)
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableSubscriber<List<Item>>() {

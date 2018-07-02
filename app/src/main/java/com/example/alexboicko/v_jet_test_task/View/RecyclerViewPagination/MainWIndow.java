@@ -1,13 +1,18 @@
 package com.example.alexboicko.v_jet_test_task.View.RecyclerViewPagination;
 
+import android.Manifest;
+import android.app.Application;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -72,6 +77,7 @@ public class MainWIndow extends AppCompatActivity implements BottomNavigationVie
 
     CompositeDisposable disposable;
 
+    private boolean isInternetConnect = false;
 
 
 
@@ -121,28 +127,27 @@ public class MainWIndow extends AppCompatActivity implements BottomNavigationVie
             }
         });
 
+        int permissionNetworkStatus = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_NETWORK_STATE);
+        int permissionWifiStatus = ContextCompat.checkSelfPermission(this,Manifest.permission.ACCESS_WIFI_STATE);
+        int permissionInternetStatus = ContextCompat.checkSelfPermission(this,Manifest.permission.INTERNET);
 
-
-        if(isInternetConnect()){
-            loginFacebook.setVisibility(View.VISIBLE);
-        } else {
-            Toast.makeText(this,"You are working in OfflineMode!",Toast.LENGTH_LONG);
-            loginFacebook.setVisibility(View.GONE);
-            bottomNavigationView.setVisibility(View.VISIBLE);
-            socialFragment.setArguments(SPreferences.loadLastUser(this));
-            android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragmentLayout,socialFragment);
-            fragmentTransaction.commit();
+        if(permissionInternetStatus != PackageManager.PERMISSION_GRANTED
+                ){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.INTERNET,
+                    Manifest.permission.ACCESS_NETWORK_STATE,
+                    Manifest.permission.ACCESS_WIFI_STATE},1);
         }
+
+
     }
 
-    private boolean isInternetConnect(){
+
+    private boolean checkInternetConnect(){
+
         ConnectivityManager cm = (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return cm.getActiveNetworkInfo() != null && activeNetwork.isConnected() && activeNetwork.isAvailable();
     }
-
     private void getUserProfile(AccessToken currentAccessToken) {
         GraphRequest request = GraphRequest.newMeRequest(
                 currentAccessToken,
@@ -185,6 +190,36 @@ public class MainWIndow extends AppCompatActivity implements BottomNavigationVie
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case 1: {
+                if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[2] == PackageManager.PERMISSION_GRANTED){
+                    isInternetConnect  = checkInternetConnect();
+                }else {
+                    isInternetConnect = checkInternetConnect();
+                }
+                if(isInternetConnect){
+                    loginFacebook.setVisibility(View.VISIBLE);
+                } else {
+                    Toast.makeText(this,"You are working in OfflineMode!",Toast.LENGTH_LONG);
+                    loginFacebook.setVisibility(View.GONE);
+                    bottomNavigationView.setVisibility(View.VISIBLE);
+                    socialFragment.setArguments(SPreferences.loadLastUser(this));
+                    android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.fragmentLayout,socialFragment);
+                    fragmentTransaction.commit();
+                }
+            }
+        }
+    }
+
+
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode,  data);
@@ -197,7 +232,7 @@ public class MainWIndow extends AppCompatActivity implements BottomNavigationVie
 
         switch (item.getItemId()){
             case R.id.news: {
-                if(isInternetConnect()) {
+                if(isInternetConnect) {
                     newsFragment.setArguments(bundle);
                 } else {
                     newsFragment.setArguments(SPreferences.loadLastUser(this));
@@ -206,7 +241,7 @@ public class MainWIndow extends AppCompatActivity implements BottomNavigationVie
             }
                 break;
             case R.id.search_news:
-                if(isInternetConnect()) {
+                if(isInternetConnect) {
                     searchNewsFragment.setArguments(bundle);
                 } else {
                     searchNewsFragment.setArguments(SPreferences.loadLastUser(this));
@@ -214,7 +249,7 @@ public class MainWIndow extends AppCompatActivity implements BottomNavigationVie
                 fragmentTransaction.replace(R.id.fragmentLayout,searchNewsFragment);
                 break;
             case R.id.social: {
-                if(isInternetConnect()) {
+                if(isInternetConnect) {
                     socialFragment.setArguments(bundle);
                 } else {
                     socialFragment.setArguments(SPreferences.loadLastUser(this));
@@ -223,7 +258,7 @@ public class MainWIndow extends AppCompatActivity implements BottomNavigationVie
             }
                 break;
             case R.id.favorites: {
-                if(isInternetConnect()) {
+                if(isInternetConnect) {
                     favoritesNewsFragment.setArguments(bundle);
                 } else {
                     favoritesNewsFragment.setArguments(SPreferences.loadLastUser(this));
@@ -246,6 +281,7 @@ public class MainWIndow extends AppCompatActivity implements BottomNavigationVie
     @Override
     protected void onStart() {
         super.onStart();
+
 
     }
 }
